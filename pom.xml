@@ -5,7 +5,7 @@
 	<groupId>com.beimi</groupId>
 	<artifactId>beimi</artifactId>
 	<version>0.8.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>chess</name>
 	<description>贝密游戏</description>
@@ -106,6 +106,8 @@
 			<groupId>lt.jave</groupId>
 			<artifactId>jave</artifactId>
 			<version>1.0.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/WEB-INF/lib/jave-1.0.2.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -179,6 +181,8 @@
 			<groupId>org.lionsoul.ip2region</groupId>
 			<artifactId>ip2region</artifactId>
 			<version>1.2.4</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/WEB-INF/lib/ip2region-1.2.4.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -325,21 +329,19 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
+					<compilerArgs>
+						<arg>-extdirs</arg>
+						<arg>${project.basedir}/src/main/resources/WEB-INF/lib</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<attachClasses>true</attachClasses>
-				</configuration>
-			</plugin>
 			<!-- docker的maven插件，官网：https://github.com/spotify/docker-maven-plugin -->
             <plugin>
                 <groupId>com.spotify</groupId>

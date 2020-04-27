@@ -9,8 +9,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.beimi.core.BMDataContext;
 
-
-@EnableAutoConfiguration
 @SpringBootApplication
 @EnableAsync
 @EnableJpaRepositories("com.beimi.web.service.repository.jpa")
