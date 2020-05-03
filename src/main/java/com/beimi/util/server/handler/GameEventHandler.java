@@ -1,18 +1,6 @@
 
 package com.beimi.util.server.handler;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.tio.core.Aio;
-import org.tio.core.ChannelContext;
-import org.tio.http.common.HttpRequest;
-import org.tio.http.common.HttpResponse;
-import org.tio.websocket.common.WsRequest;
-import org.tio.websocket.server.handler.IWsMsgHandler;
-
 import com.alibaba.fastjson.JSON;
 import com.beimi.config.web.GameServer;
 import com.beimi.core.BMDataContext;
@@ -31,6 +19,17 @@ import com.beimi.web.model.Token;
 import com.beimi.web.service.repository.es.PlayUserClientESRepository;
 import com.beimi.web.service.repository.jpa.GameRoomRepository;
 import com.beimi.web.service.repository.jpa.PlayUserClientRepository;
+import org.apache.commons.lang.StringUtils;
+import org.tio.core.Aio;
+import org.tio.core.ChannelContext;
+import org.tio.http.common.HttpRequest;
+import org.tio.http.common.HttpResponse;
+import org.tio.websocket.common.WsRequest;
+import org.tio.websocket.server.handler.IWsMsgHandler;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 public class GameEventHandler implements IWsMsgHandler
 {  
@@ -83,7 +82,10 @@ public class GameEventHandler implements IWsMsgHandler
 					case "recovery":this.onRecovery(beiMiClient); break;
 					case "leave":this.onLeave(beiMiClient); break;
 					case "command":this.onCommand(beiMiClient); break;
-					case "searchroom":this.onSearchRoom(beiMiClient); break;
+					case "searchroom":
+						beiMiClient.setData(text);
+						this.onSearchRoom(beiMiClient);
+						break;
 					case "message":this.onMessage(beiMiClient); break;
 					
 				}
@@ -185,7 +187,9 @@ public class GameEventHandler implements IWsMsgHandler
 			if(userClient!=null){
 				gameStatus.setGamestatus(BMDataContext.GameStatusEnum.READY.toString());
 				String roomid = (String) CacheHelper.getRoomMappingCacheBean().getCacheObject(userClient.getId(), userClient.getOrgi()) ;
-				if(!StringUtils.isBlank(roomid) && CacheHelper.getBoardCacheBean().getCacheObject(roomid, userClient.getId())!=null){
+				//TODO:zwb
+				//if(!StringUtils.isBlank(roomid) && CacheHelper.getBoardCacheBean().getCacheObject(roomid, userClient.getId())!=null){
+				if(!StringUtils.isBlank(roomid)){
 					gameStatus.setUserid(userClient.getId());
 					gameStatus.setOrgi(userClient.getOrgi());
 
